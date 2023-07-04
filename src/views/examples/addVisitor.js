@@ -19,6 +19,7 @@
 // reactstrap components
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import InformationModal from "./informationModal";
 import {
   Button,
   Card,
@@ -36,47 +37,52 @@ import UserHeader from "components/Headers/UserHeader.js";
 
 const AddVisitor = () => {
   const [message, setMessage] = useState('');
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const [user, setUser] = useState({
     firstname: '',
     lastname: '',
     email: '',
     nID: '',
     phone: ''
-});
+  });
+  const [show, setShow] = useState(false);
+  const toggleModal = () => {
+    setShow(!show);
+    if (!(show === false)) {
+      navigate("/visitors");
+    }
+  };
   function submitHandler() {
     const requestOptions = {
-        method: 'POST',
-        headers: {
-            'content-Type': 'application/json',
-            'x-auth-token':JSON.parse(localStorage.getItem("token"))
-        },
-        body: JSON.stringify(user)
+      method: 'POST',
+      headers: {
+        'content-Type': 'application/json',
+        'x-auth-token': JSON.parse(localStorage.getItem("token"))
+      },
+      body: JSON.stringify(user)
     }
     fetch("http://localhost:7000/api/admin/addvisitor", requestOptions)
-        .then((response) => {
-            console.log(response);
-            console.log(response.status);
-            if (response.status===200) {
-                setMessage("User saved successfully")
-            }
-            else if(response.status===204)
-            {
-                setMessage("User already exists")
-            }
-            else if(response.status===405)
-            {
-                setMessage("email already used");
-            }
-            else {
-                setMessage("Not able to save");
-            }
-        })
-        .catch(error => {
-            console.log(error.message)
-            setMessage("connect your server")
-        })
-}
+      .then((response) => {
+        console.log(response);
+        console.log(response.status);
+        if (response.status === 200) {
+          setMessage("User saved successfully")
+        }
+        else if (response.status === 204) {
+          setMessage("User already exists")
+        }
+        else if (response.status === 405) {
+          setMessage("email already used");
+        }
+        else {
+          setMessage("Not able to save");
+        }
+      })
+      .catch(error => {
+        console.log(error.message)
+        setMessage("connect your server")
+      })
+  }
   return (
     <>
       <UserHeader />
@@ -120,7 +126,7 @@ const AddVisitor = () => {
                             First name
                           </label>
                           <Input
-                            style={{color:'black'}}
+                            style={{ color: 'black' }}
                             className="form-control-alternative"
                             id="input-first-name"
                             placeholder="First name"
@@ -139,7 +145,7 @@ const AddVisitor = () => {
                             Last name
                           </label>
                           <Input
-                            style={{color:'black'}}
+                            style={{ color: 'black' }}
                             className="form-control-alternative"
                             id="input-last-name"
                             placeholder="Last name"
@@ -167,7 +173,7 @@ const AddVisitor = () => {
                             NATIONAL IDENTIFICATION
                           </label>
                           <Input
-                            style={{color:'black'}}
+                            style={{ color: 'black' }}
                             className="form-control-alternative"
                             id="input-address"
                             placeholder="Home Address"
@@ -179,7 +185,7 @@ const AddVisitor = () => {
                       </Col>
                     </Row>
                     <Row>
-                    <Col lg="6">
+                      <Col lg="6">
                         <FormGroup>
                           <label
                             className="form-control-label"
@@ -188,7 +194,7 @@ const AddVisitor = () => {
                             Email address
                           </label>
                           <Input
-                            style={{color:'black'}}
+                            style={{ color: 'black' }}
                             className="form-control-alternative"
                             id="input-email"
                             placeholder="email"
@@ -207,7 +213,7 @@ const AddVisitor = () => {
                             Phone
                           </label>
                           <Input
-                            style={{color:'black'}}
+                            style={{ color: 'black' }}
                             className="form-control-alternative"
                             id="input-country"
                             placeholder="phone"
@@ -221,10 +227,10 @@ const AddVisitor = () => {
                   </div>
                   <Row>
                     <Col lg="6">
-                      <input type="submit" 
-                      className="mx-2 btn btn-success btn-lg"
-                      style={{width:'300px',height:'50px'}}
-                       value="Add visitor"/>
+                      <input type="submit"
+                        className="mx-2 btn btn-success btn-lg"
+                        style={{ width: '300px', height: '50px' }}
+                        value="Add visitor" />
                     </Col>
                   </Row>
                 </Form>
@@ -232,6 +238,10 @@ const AddVisitor = () => {
             </Card>
           </Col>
         </Row>
+        <div>
+          {/* information */}
+          <InformationModal openModal={show} toggleModal={toggleModal} message={"successfully saved user"} />
+        </div>
       </Container>
     </>
   );

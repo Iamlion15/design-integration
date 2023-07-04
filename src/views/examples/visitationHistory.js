@@ -36,7 +36,7 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 
-const Tables = () => {
+const VisitationHistory = () => {
   const [message, setMessage] = useState('');
   const [data, setData] = useState([]);
   const [showDelete, setShowDelete] = useState(false);
@@ -65,7 +65,7 @@ useEffect(() => {
       'x-auth-token': JSON.parse(localStorage.getItem("token"))
     },
   }
-  fetch("http://localhost:7000/api/admin/getvisitors", requestOptions)
+  fetch("http://localhost:7000/api/admin/history", requestOptions)
     .then((response) => {
       if (!response.ok) {
 
@@ -102,7 +102,7 @@ return (
                   <th scope="col">LAST NAME</th>
                   <th scope="col">NATIONAL IDENTITY</th>
                   <th scope="col">EMAIL</th>
-                  <th scope="col">PHONE</th>
+                  <th scope="col">VISITATION DATE</th>
                   <th scope="col" />
                 </tr>
               </thead>
@@ -114,11 +114,11 @@ return (
                         <Badge color="" className="badge-dot mr-4">
                           <i className="bg-primary" />
                           <span className="mb-0 text-sm">
-                            {person.firstname}
+                            {person.visitor.firstname}
                           </span>
                         </Badge>
                       </th>
-                      <td>{person.lastname}</td>
+                      <td>{person.visitor.lastname}</td>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i className="bg-info" />
@@ -129,50 +129,16 @@ return (
                         <div>
                           <Badge color="" className="badge-dot mr-4">
                             <i className="bg-warning" />
-                            {person.email}
+                            {person.visitor.email}
                           </Badge>
                         </div>
                       </td>
                       <td>
                         <div className="d-flex align-items-center">
                           <span className="mr-2">
-                            {person.phone}
+                            {person.arrivalTime}
                           </span>
                         </div>
-                      </td>
-                      <td className="text-right">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            <i className="fas fa-ellipsis-v" />
-                          </DropdownToggle>
-                          <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                              href="#"
-                              onClick={() => NavigateToUpdate( person._id)}
-                            >
-                              <Badge color="" className="badge-dot mr-4">
-                                <i className="bg-success" />
-                                update
-                              </Badge>
-                            </DropdownItem>
-                            <DropdownItem
-                              href="#"
-                              onClick={(e) => toggleDelete(person)}
-                            >
-                              <Badge color="" className="badge-dot mr-4">
-                                <i className="bg-warning" />
-                                delete
-                              </Badge>
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
                       </td>
                     </tr>)
                 })}
@@ -189,14 +155,12 @@ return (
     </Container>
 
     <div>
-      {/* update modal */}
       {/* deleteee */}
       {showDelete && (<div className="modal-backdrop show" onClick={toggleDelete}></div>)}
       <DeleteModal showDelete={showDelete} toggleDelete={toggleDelete} user={user} />
-
     </div>
   </>
 );
 };
 
-export default Tables;
+export default VisitationHistory;

@@ -17,9 +17,40 @@
 */
 
 // reactstrap components
+import { useEffect, useState } from "react";
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 
 const Header = () => {
+  const [users, setUser] = useState({});
+  const [weeklyVisits, setWeeklyVisits] = useState({});
+  const [dailyVisits, setDailyVisits] = useState({});
+  const [currentweek,setCurrentweek]=useState('')
+  const [previousweek,setPreviousweek]=useState('')
+  useEffect(() => {
+    const fetchData=async()=>{
+      const urls = ["http://localhost:7000/api/admin/weeklyvisit",
+      "http://localhost:7000/api/admin/dailyvisit",
+      "http://localhost:7000/api/admin/weeklyuser"]
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'content-Type': 'application/json',
+        'x-auth-token': JSON.parse(localStorage.getItem("token"))
+      }
+    }
+    const requests=urls.map((url)=>fetch(url,requestOptions));
+    const responses=await Promise.all(requests)
+    const data=await Promise.all(responses.map(response=>response.json()));
+    setWeeklyVisits(data[0]);
+    setDailyVisits(data[1]);
+    setUser(data[2]);
+    setCurrentweek(data[0].currentWeekEnd.slice(0,10))
+    setPreviousweek(data[0].previousWeekStart.slice(0,10))
+    }
+    fetchData();
+    
+  }, [])
+
   return (
     <>
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
@@ -36,10 +67,10 @@ const Header = () => {
                           tag="h5"
                           className="text-uppercase text-muted mb-0"
                         >
-                          Traffic
+                          Daily visits
                         </CardTitle>
                         <span className="h2 font-weight-bold mb-0">
-                          350,897
+                          {dailyVisits.TodayCount}
                         </span>
                       </div>
                       <Col className="col-auto">
@@ -49,10 +80,13 @@ const Header = () => {
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        <i className="fa fa-arrow-up" /> 3.48%
-                      </span>{" "}
-                      <span className="text-nowrap">Since last month</span>
+                    {dailyVisits.percentage < 0 && (
+                        <span className="text-warning mr-2">
+                      <i className="fas fa-arrow-down" /> {weeklyVisits.percentage}</span>)} 
+                      {dailyVisits.percentage >= 0 && (
+                        <span className="text-success mr-2">
+                      <i className="fa fa-arrow-up" /> {weeklyVisits.percentage}</span>)}
+                      <span className="text-nowrap">Since yesterday</span>
                     </p>
                   </CardBody>
                 </Card>
@@ -68,7 +102,7 @@ const Header = () => {
                         >
                           New users
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">2,356</span>
+                        <span className="h2 font-weight-bold mb-0">{users.currentWeekCount}</span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -77,9 +111,12 @@ const Header = () => {
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-danger mr-2">
-                        <i className="fas fa-arrow-down" /> 3.48%
-                      </span>{" "}
+                    {users.percentage < 0 && (
+                        <span className="text-warning mr-2">
+                      <i className="fas fa-arrow-down" /> {weeklyVisits.percentage}</span>)} 
+                      {users.percentage >= 0 && (
+                        <span className="text-success mr-2">
+                      <i className="fa fa-arrow-up" /> {weeklyVisits.percentage}</span>)}
                       <span className="text-nowrap">Since last week</span>
                     </p>
                   </CardBody>
@@ -94,9 +131,9 @@ const Header = () => {
                           tag="h5"
                           className="text-uppercase text-muted mb-0"
                         >
-                          Sales
+                          weekly visitors
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">924</span>
+                        <span className="h2 font-weight-bold mb-0">{weeklyVisits.currentWeekCount}</span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -105,10 +142,13 @@ const Header = () => {
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-warning mr-2">
-                        <i className="fas fa-arrow-down" /> 1.10%
-                      </span>{" "}
-                      <span className="text-nowrap">Since yesterday</span>
+                      {weeklyVisits.percentage < 0 && (
+                        <span className="text-warning mr-2">
+                      <i className="fas fa-arrow-down" /> {weeklyVisits.percentage}</span>)} 
+                      {weeklyVisits.percentage >= 0 && (
+                        <span className="text-success mr-2">
+                      <i className="fa fa-arrow-up" /> {weeklyVisits.percentage}</span>)}  
+                      <span className="text-nowrap">Since last week</span>
                     </p>
                   </CardBody>
                 </Card>
@@ -122,9 +162,9 @@ const Header = () => {
                           tag="h5"
                           className="text-uppercase text-muted mb-0"
                         >
-                          Performance
+                          weekly percentage
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">49,65%</span>
+                        <span className="h2 font-weight-bold mb-0">{weeklyVisits.percentage}%</span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -134,9 +174,13 @@ const Header = () => {
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
                       <span className="text-success mr-2">
-                        <i className="fas fa-arrow-up" /> 12%
+                      <span style={{color:'black'}}>from</span> {previousweek}
                       </span>{" "}
-                      <span className="text-nowrap">Since last month</span>
+                      <span className="text-nowrap">
+                      <span className="text-success mr-2">
+                         <span style={{color:'black'}}>to</span> {currentweek}
+                      </span>
+                      </span>
                     </p>
                   </CardBody>
                 </Card>

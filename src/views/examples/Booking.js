@@ -18,6 +18,8 @@
 import { useState } from "react";
 import FindVisitor from "./findvisitor";
 import Visitordetails from "./visitorDetails";
+import Footer from "components/Footers/Footer.js";
+import Navbar from "components/Navbars/Navbar.js";
 import Book from "./book";
 // reactstrap components
 import {
@@ -32,7 +34,7 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 
-const Icons = () => {
+const Booking = () => {
   const [data, setData] = useState([])
   const [step, setStep] = useState(1);
 
@@ -47,6 +49,7 @@ const Icons = () => {
   }
   return (
     <>
+    <Navbar/>
       <Header />
       {/* Page content */}
       <Container className="mt--7" fluid>
@@ -87,7 +90,7 @@ const Icons = () => {
                     <CardBody>
                       {step === 1 && (<FindVisitor setVisitordata={setData} onNext={handleNext} setStep={setStep} />)}
                       {step === 2 && (<Visitordetails data={data}  proceed={gotobook} />)}
-                      {step===3 && (<Book data={data} onPrevious={reset}/>)}
+                      {step===3 && (<Book data={data} reset={reset} />)}
                     </CardBody>
                   </Card>
                 </Col>
@@ -95,9 +98,10 @@ const Icons = () => {
             </Card>
           </div>
         </Row>
+        <Footer/>
       </Container>
     </>
   );
 };
 
-export default Icons;
+export default Booking;

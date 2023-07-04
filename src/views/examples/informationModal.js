@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 
 const InformationModal = ({ openModal, toggleModal, message}) => {
     return (
@@ -11,10 +11,7 @@ const InformationModal = ({ openModal, toggleModal, message}) => {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" onClick={toggleModal}>
-                                Cancel
-                            </button>
-                            <button type="button" className="btn btn-primary" onClick={submitHandler}>
-                                DELETE USER
+                                OK
                             </button>
                         </div>
                     </div>

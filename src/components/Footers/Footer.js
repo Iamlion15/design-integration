@@ -33,7 +33,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               target="_blank"
             >
-              MANZI KEVIN MAXIME
+              ISIMBI NINETTE
             </a>
           </div>
         </Col>
@@ -42,41 +42,41 @@ const Footer = () => {
           <Nav className="nav-footer justify-content-center justify-content-xl-end">
             <NavItem>
               <NavLink
-                href="https://www.creative-tim.com?ref=adr-admin-footer"
+                href="https://www.rdb.rw"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Creative Tim
+                RDB
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink
-                href="https://www.creative-tim.com/presentation?ref=adr-admin-footer"
+                href="https://www.rema.gov.rw"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                About Us
+                Rema
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink
-                href="http://blog.creative-tim.com?ref=adr-admin-footer"
+                href="http://www.visitrwanda.com/"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Blog
+                Visit Rwanda
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink
-                href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md?ref=adr-admin-footer"
+                href=""
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                MIT License
+                All rights reserved
               </NavLink>
             </NavItem>
           </Nav>

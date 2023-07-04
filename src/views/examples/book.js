@@ -1,3 +1,5 @@
+import { useState } from "react";
+import InformationModal from "./informationModal";
 import {
     Badge,
     Table,
@@ -8,7 +10,40 @@ import {
     CardBody
 } from "reactstrap";
 
-const Book = ({ data, onPrevious }) => {
+const Book = ({ data,reset }) => {
+    const [message, setMessage] = useState('');
+    const [show, setShow] = useState(false);
+    const toggleModal = () => {
+        setShow(!show);
+        if(!(show===false))
+        {
+            reset();
+        }
+      };
+    function booknow() {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'content-Type': 'application/json',
+                'x-auth-token': JSON.parse(localStorage.getItem("token"))
+            },
+            body: JSON.stringify(data)
+        }
+        fetch("http://localhost:7000/api/visitor/book", requestOptions)
+            .then((response) => {
+                if (!response.ok) {
+                    setMessage("unable to book please contact admin")
+                }
+                else {
+                    setMessage("booked succesfully");
+                    setShow(true)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                setMessage("connect your server")
+            })
+    }
     return (
         <>
             <Card className="shadow">
@@ -89,15 +124,20 @@ const Book = ({ data, onPrevious }) => {
                     </Table>
                 </CardBody>
                 <CardFooter>
-                <Button
-                            color="success"
-                            onClick={(e) => e.preventDefault}
-                            style={{width:'500px'}}
-                          >
-                            Book visit
-                          </Button>
+                    <Button
+                        color="success"
+                        onClick={booknow}
+                        style={{ width: '500px' }}
+                    >
+                        Book visit
+                    </Button>
                 </CardFooter>
             </Card>
+
+            <div>
+                {/* information */}
+                <InformationModal openModal={show} toggleModal={toggleModal} message={"successfully booked"} />
+            </div>
 
         </>
     )
