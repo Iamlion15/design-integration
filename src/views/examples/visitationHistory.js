@@ -35,6 +35,7 @@ import {
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
+import Navbar from "components/Navbars/Navbar.js";
 
 const VisitationHistory = () => {
   const [message, setMessage] = useState('');
@@ -85,6 +86,7 @@ useEffect(() => {
 
 return (
   <>
+    <Navbar/>
     <Header />
     {/* Page content */}
     <Container className="mt--7" fluid>
@@ -109,7 +111,7 @@ return (
               <tbody>
                 {data.map((person) => {
                   return (
-                    <tr>
+                    <tr key={person._id}>
                       <th scope="row">
                         <Badge color="" className="badge-dot mr-4">
                           <i className="bg-primary" />

@@ -81,7 +81,7 @@ function loginHandler(e) {
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-5">
             <div className="text-muted text-center mt-2 mb-3">
-              <small>Sign in with</small>
+              <small>connect with us</small>
             </div>
             <div className="btn-wrapper text-center">
               <Button
@@ -99,7 +99,7 @@ function loginHandler(e) {
                     }
                   />
                 </span>
-                <span className="btn-inner--text">Github</span>
+                <span className="btn-inner--text">umusambi village</span>
               </Button>
               <Button
                 className="btn-neutral btn-icon"
@@ -122,7 +122,7 @@ function loginHandler(e) {
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Or sign in with credentials</small>
+              <small> sign in with credentials</small>
             </div>
             <Form role="form" onSubmit={loginHandler}>
               {msg}
@@ -134,7 +134,7 @@ function loginHandler(e) {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Email"
+                    placeholder="username"
                     type="text"
                     autoComplete="new-email"
                     onChange={(e) => setData({ ...data, username: e.target.value })}
@@ -170,30 +170,13 @@ function loginHandler(e) {
                 </label>
               </div>
               <div className="text-center">
-                <input type="submit" className="my-4 " color="primary" value="sign in"/>
+                <input type="submit" className="my-4 btn btn-success" color="primary" value="sign in"/>
               </div>
             </Form>
           </CardBody>
         </Card>
         <Row className="mt-3">
-          <Col xs="6">
-            <a
-              className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
-            >
-              <small>Forgot password?</small>
-            </a>
-          </Col>
-          <Col className="text-right" xs="6">
-            <a
-              className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
-            >
-              <small>Create new account</small>
-            </a>
-          </Col>
+          
         </Row>
       </Col>
     </>

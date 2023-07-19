@@ -162,7 +162,7 @@ const Header = () => {
                           tag="h5"
                           className="text-uppercase text-muted mb-0"
                         >
-                          weekly percentage
+                          weekly %
                         </CardTitle>
                         <span className="h2 font-weight-bold mb-0">{weeklyVisits.percentage}%</span>
                       </div>

@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // reactstrap components
 import {
   UncontrolledCollapse,
@@ -27,19 +27,22 @@ import {
   Container,
   Row,
   Col,
+  Button
 } from "reactstrap";
 
 const AdminNavbar = () => {
+  const navigate=useNavigate();
+  const logout=()=>{
+    localStorage.removeItem("token");
+    navigate("/")
+  }
   return (
     <>
       <div className="bg-gradient-info">
         <Navbar className="navbar-top navbar-horizontal navbar-dark" expand="md">
           <Container className="px-4">
             <NavbarBrand to="/" tag={Link}>
-              <img
-                alt="..."
-                src={require("../../assets/img/brand/argon-react-white.png")}
-              />
+              <h4 style={{color:"whitesmoke",}}>Umusambi village</h4>
             </NavbarBrand>
             <button className="navbar-toggler" id="navbar-collapse-main">
               <span className="navbar-toggler-icon" />
@@ -49,10 +52,7 @@ const AdminNavbar = () => {
                 <Row>
                   <Col className="collapse-brand" xs="6">
                     <Link to="/">
-                      <img
-                        alt="..."
-                        src={require("../../assets/img/brand/argon-react.png")}
-                      />
+                    <h4 style={{color:"Black",}}>Umusambi village</h4>
                     </Link>
                   </Col>
                   <Col className="collapse-close" xs="6">
@@ -95,6 +95,16 @@ const AdminNavbar = () => {
                     <i className="ni ni-single-02" />
                     <span className="nav-link-inner--text">Book a visit</span>
                   </NavLink>
+                </NavItem>
+                <NavItem className="pt-2">
+                <Button
+                      color="primary"
+                      onClick={logout}
+                      size="sm"
+                      
+                    >
+                      logout
+                    </Button>
                 </NavItem>
               </Nav>
             </UncontrolledCollapse>

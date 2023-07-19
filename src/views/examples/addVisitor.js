@@ -34,6 +34,7 @@ import {
 } from "reactstrap";
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
+import Navbar from "components/Navbars/Navbar.js";
 
 const AddVisitor = () => {
   const [message, setMessage] = useState('');
@@ -85,6 +86,7 @@ const AddVisitor = () => {
   }
   return (
     <>
+    <Navbar/>
       <UserHeader />
       {/* Page content */}
       <Container className="mt--7" fluid>
