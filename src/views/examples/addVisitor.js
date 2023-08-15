@@ -1,25 +1,7 @@
-/*!
 
-=========================================================
-* Argon Dashboard React - v1.2.3
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// reactstrap components
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import InformationModal from "./informationModal";
+import AddUserModal from "./addUserModal";
 import {
   Button,
   Card,
@@ -33,7 +15,7 @@ import {
   Col,
 } from "reactstrap";
 // core components
-import UserHeader from "components/Headers/UserHeader.js";
+import Header from "components/Headers/Header";
 import Navbar from "components/Navbars/Navbar.js";
 
 const AddVisitor = () => {
@@ -44,7 +26,8 @@ const AddVisitor = () => {
     lastname: '',
     email: '',
     nID: '',
-    phone: ''
+    phone: '',
+    password:''
   });
   const [show, setShow] = useState(false);
   const toggleModal = () => {
@@ -53,7 +36,8 @@ const AddVisitor = () => {
       navigate("/visitors");
     }
   };
-  function submitHandler() {
+  function submitHandler(e) {
+    e.preventDefault();
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -67,6 +51,7 @@ const AddVisitor = () => {
         console.log(response);
         console.log(response.status);
         if (response.status === 200) {
+          toggleModal()
           setMessage("User saved successfully")
         }
         else if (response.status === 204) {
@@ -87,7 +72,7 @@ const AddVisitor = () => {
   return (
     <>
     <Navbar/>
-      <UserHeader />
+      <Header />
       {/* Page content */}
       <Container className="mt--7" fluid>
         <Row>
@@ -166,7 +151,7 @@ const AddVisitor = () => {
                   </h6>
                   <div className="pl-lg-4">
                     <Row>
-                      <Col md="12">
+                      <Col md="6">
                         <FormGroup>
                           <label
                             className="form-control-label"
@@ -181,6 +166,25 @@ const AddVisitor = () => {
                             placeholder="Home Address"
                             type="text"
                             onChange={(e) => setUser({ ...user, nID: e.target.value })}
+                            required
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col md="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-address"
+                          >
+                            PASSWORD
+                          </label>
+                          <Input
+                            style={{ color: 'black' }}
+                            className="form-control-alternative"
+                            id="input-address"
+                            placeholder="Home Address"
+                            type="text"
+                            onChange={(e) => setUser({ ...user, password: e.target.value })}
                             required
                           />
                         </FormGroup>
@@ -242,7 +246,7 @@ const AddVisitor = () => {
         </Row>
         <div>
           {/* information */}
-          <InformationModal openModal={show} toggleModal={toggleModal} message={"successfully saved user"} />
+          <AddUserModal toggleModal={toggleModal} message={"suuccessfully saved user"} visible={show} title={"add user"}/>
         </div>
       </Container>
     </>

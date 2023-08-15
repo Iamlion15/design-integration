@@ -41,7 +41,7 @@ const AdminNavbar = () => {
       <div className="bg-gradient-info">
         <Navbar className="navbar-top navbar-horizontal navbar-dark" expand="md">
           <Container className="px-4">
-            <NavbarBrand to="/" tag={Link}>
+            <NavbarBrand to="/booking" tag={Link}>
               <h4 style={{color:"whitesmoke",}}>Umusambi village</h4>
             </NavbarBrand>
             <button className="navbar-toggler" id="navbar-collapse-main">
@@ -51,7 +51,7 @@ const AdminNavbar = () => {
               <div className="navbar-collapse-header d-md-none">
                 <Row>
                   <Col className="collapse-brand" xs="6">
-                    <Link to="/">
+                    <Link to="/booking">
                     <h4 style={{color:"Black",}}>Umusambi village</h4>
                     </Link>
                   </Col>
@@ -65,7 +65,7 @@ const AdminNavbar = () => {
               </div>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink className="nav-link-icon" to="/" tag={Link}>
+                  <NavLink className="nav-link-icon" to="/booking" tag={Link}>
                     <i className="ni ni-planet" />
                     <span className="nav-link-inner--text">Dashboard</span>
                   </NavLink>

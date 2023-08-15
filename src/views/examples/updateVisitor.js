@@ -1,25 +1,8 @@
-/*!
 
-=========================================================
-* Argon Dashboard React - v1.2.3
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// reactstrap components
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import AddUserModal from "./addUserModal";
 import {
     Button,
     Card,
@@ -33,44 +16,52 @@ import {
     Col,
 } from "reactstrap";
 // core components
-import UserHeader from "components/Headers/UserHeader.js";
+import Header from "components/Headers/Header";
 import Navbar from "components/Navbars/Navbar.js";
 
 const Updatevisitor = () => {
+
+    const [show, setShow] = useState(false);
+    const toggleModal = () => {
+        setShow(!show);
+        if (!(show === false)) {
+            navigate("/visitors");
+        }
+    };
     const [message, setMessage] = useState('');
     const navigate = useNavigate()
-    const {id}=useParams();
+    const { id } = useParams();
     const [user, setUser] = useState({})
-    const url="http://localhost:7000/api/admin/findvisitor/"+id
-      useEffect(() => {
+    const url = "http://localhost:7000/api/admin/findvisitor/" + id
+    useEffect(() => {
         const requestOptions = {
-          method: 'GET',
-          headers: {
-            'content-Type': 'application/json',
-            'x-auth-token': JSON.parse(localStorage.getItem("token"))
-          }
+            method: 'GET',
+            headers: {
+                'content-Type': 'application/json',
+                'x-auth-token': JSON.parse(localStorage.getItem("token"))
+            }
         }
         fetch(url, requestOptions)
-          .then((response) => {
-            if (!response.ok) {
-    
-              setMessage("PLEASE RETRY")
-            }
-            return response.json();
-          })
-          .then(data => {
-            if(data.code==="yes")
-            {
-                setUser(data.message)
-            }
-          })
-          .catch(error => {
-            console.log(error.message)
-            setMessage("connect your server")
-          })
-      }, [url]);
-      
-    function submitHandler() {
+            .then((response) => {
+                if (!response.ok) {
+
+                    setMessage("PLEASE RETRY")
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.code === "yes") {
+                    setUser(data.message)
+                }
+            })
+            .catch(error => {
+                console.log(error.message)
+                setMessage("connect your server")
+            })
+    }, [url]);
+
+    function submitHandler(e) {
+        e.preventDefault();
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -82,8 +73,8 @@ const Updatevisitor = () => {
         fetch("http://localhost:7000/api/admin/modifyvisitor", requestOptions)
             .then((response) => {
                 if (response.ok) {
-                   // setMessage("User updated successfully")
-                    navigate("/visitors")
+                    // setMessage("User updated successfully")
+                    toggleModal()
                 }
                 else {
                     setMessage("Not able to update");
@@ -97,8 +88,8 @@ const Updatevisitor = () => {
 
     return (
         <>
-            <Navbar/>
-            <UserHeader />
+            <Navbar />
+            <Header />
             {/* Page content */}
             <Container className="mt--7" fluid>
                 <Row>
@@ -256,6 +247,10 @@ const Updatevisitor = () => {
                         </Card>
                     </Col>
                 </Row>
+                <div>
+                    {/* information */}
+                    <AddUserModal toggleModal={toggleModal} message={"suuccessfully saved user"} visible={show} title={"add user"} />
+                </div>
             </Container>
         </>
     );
