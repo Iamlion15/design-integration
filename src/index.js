@@ -35,19 +35,7 @@ root.render(
       <Route path="/update/:id" element={<Updatevisitor />} />
       <Route path="*" element={<Navigate to="/" replace />} />
       <Route path="/" element={<LandingPage/>} />
-      <Route path="/" element={
-        isAuthenticated() ? (
-          <LandingPage />
-        ) : (<Booking />)
-      }
-      />
-
-      <Route path="/login" element={
-        isAuthenticated() ? (
-          <AuthLayout />
-        ) : (<Tables />)
-      }
-      />
+      <Route path="/login" element={<AuthLayout />} />
 
 
     </Routes>
